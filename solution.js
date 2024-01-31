@@ -73,7 +73,7 @@ function bookRoom(roomNumber) {
           "Error: Invalid phone number format. Please enter a valid phone number starting with '+' then country code and your number",
       },
       {
-        question: "creditCard Number:",
+        question: "CreditCard Number:",
         validation: (input) => /^\d{16}$/.test(input.trim()),
         errorMessage:
           "Error: Invalid credit card number format. Please enter a 16-digit number.",
