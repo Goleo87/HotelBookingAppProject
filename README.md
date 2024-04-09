@@ -1,32 +1,38 @@
-# Custom Project
+# Booking App
 
-## Palazzo Mazzioti Room Booking System
+Welcome to the Booking App for Palazzo Mazzioti! This application allows users to browse available rooms, select a room for booking, and fill in their booking details.
 
-### Overview
-Welcome to Palazzo Mazzioti! This program allows you to book rooms at our luxurious hotel. Simply follow the instructions provided to select a room and complete your booking.
+## Features
 
-### Instructions
-1. Run the program in a compatible JavaScript environment.
-2. Follow the prompts to select a room and provide booking details.
-3. Ensure that you provide accurate and valid information for successful booking.
-4. Once the booking is confirmed, you will receive a confirmation with the booking details.
+- Display available rooms with their respective details (room number, name, and price).
+- Select a room for booking.
+- Fill in booking details such as full name, booking days, number of guests, email, phone number, credit card information, billing address, and more.
+- Validate user input for booking details using regular expressions.
+- Simulate a server request to process the booking.
+- Display the booking process and confirmation with all the booking details.
 
-### Code Explanation
-- The code begins with a welcome message to Palazzo Mazzioti.
-- It defines an array `roomsData` containing information about available rooms.
-- The `displayRooms` function is used to display the available rooms along with their prices.
-- The user is prompted to select a room, and the input is validated to ensure it corresponds to an available room.
-- The `bookRoom` function handles the booking process by collecting user details and simulating a server request.
-- User input for booking details is collected dynamically using regular expressions for validation.
-- The `simulateServerRequest` function simulates sending booking data to the server and prints the booking details upon success.
+## Installation
 
-### Usage
-To use this program:
-1. Ensure you have a JavaScript environment compatible with readline for user input.
-2. Run the script and follow the prompts to book a room.
+1. Clone this repository to your local machine.
+2. Open the `index.html` file in your web browser.
+3. Explore the available rooms, select a room, and fill in the booking details to make a booking.
 
-### Important Notes
-- Ensure that all provided information is accurate to avoid any issues with your booking.
-- This is a simulated booking system and does not interact with a real server.
+## Usage
 
-Thank you for choosing Palazzo Mazzioti! Enjoy your stay!
+- Click on the "Select Room" button next to the desired room to initiate the booking process.
+- Fill in the required booking details in the form.
+- Click the "Submit" button to complete the booking.
+- After successful booking, the confirmation details will be displayed.
+
+## Technologies Used
+
+- HTML
+- CSS
+- JavaScript
+
+## Contributors
+![Palazzo Mazzioti app](https://github.com/Goleo87/HotelBookingAppProject/assets/143517073/7a908d91-2d0b-4c66-b16b-9d3a4c8692ef)
+
+- [Stefano Borrelli]
+
+
