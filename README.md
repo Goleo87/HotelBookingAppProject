@@ -30,9 +30,9 @@ Welcome to the Booking App for Palazzo Mazzioti! This application allows users t
 - CSS
 - JavaScript
 
-## Contributors
-![Palazzo Mazzioti app](https://github.com/Goleo87/HotelBookingAppProject/assets/143517073/7a908d91-2d0b-4c66-b16b-9d3a4c8692ef)
 
+![Palazzo Mazzioti app](https://github.com/Goleo87/HotelBookingAppProject/assets/143517073/7a908d91-2d0b-4c66-b16b-9d3a4c8692ef)
+## Contributors
 - [Stefano Borrelli]
 
 
