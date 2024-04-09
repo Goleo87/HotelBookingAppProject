@@ -1,11 +1,5 @@
-// Don't forget to run "npm install" in the terminal before trying to use "readline-sync"
-// You only need to do this once, not every time you run the code
-import readline from "readline-sync";
-// Example use of readline-sync
-// Run "node solution.js" in the terminal to see how it works
-// Feel free to delete the example code once you are clear about how to use "readline-sync"
-
 console.log("Welcome to Palazzo Mazzioti!");
+
 const roomsData = [
   { Number: 1, name: "Room Premium", price: 200 },
   { Number: 2, name: "Room Confort", price: 150 },
@@ -14,181 +8,146 @@ const roomsData = [
 
 // Function to display rooms
 function displayRooms() {
-  console.log("This are our avaliable rooms: ");
+  const roomList = document.getElementById("roomList");
   roomsData.forEach((room) => {
-    console.log(
-      `[${room.Number}] ${room.name} - Price: $${room.price} per night`
-    );
+    const listItem = document.createElement("li");
+    listItem.textContent = `[${room.Number}] ${room.name} - Price: $${room.price} per night`;
+    listItem.setAttribute("data-room-number", room.Number);
+
+    // Create a button to select the room
+    const button = document.createElement("button");
+    button.textContent = "Select Room";
+    button.setAttribute("data-room-number", room.Number);
+    button.addEventListener("click", handleRoomSelection);
+    listItem.appendChild(button);
+
+    roomList.appendChild(listItem);
   });
 }
 displayRooms();
 
-let roomNumber;
-do {
-  roomNumber = parseInt(readline.question("Please select a room: "));
-  if (roomsData.findIndex((room) => room.Number === roomNumber) === -1) {
-    console.log("Please select a valid room.");
-  }
-} while (roomsData.findIndex((room) => room.Number === roomNumber) === -1);
-
-// Function to book a room
-function bookRoom(roomNumber) {
-  const selectedRoom = roomsData.find((room) => room.Number === roomNumber);
-  if (selectedRoom) {
-    console.log(`Booking ${selectedRoom.name}...`);
-
-    //  user input for booking details
-    const bookingData = {
-      roomNumber: roomNumber,
-      date: new Date().toISOString(),
-    };
-
-    // Collect dynamic user input for booking details with regular expressions instead of "if"
-    const questions = [
-      {
-        question: "FullName:",
-        validation: (input) => /^[a-zA-Z]+\s+[a-zA-Z]+$/.test(input.trim()),
-        errorMessage: "Error: Please provide your first name and last name.",
-      },
-      {
-        question: "Booking Days:",
-        validation: (input) => /^(?:[2-9]|[12][0-9]|30)$/.test(input.trim()),
-        errorMessage:
-          "Error: your Booking should include a minimum of 2 days and a maximum 30 days.",
-      },
-      {
-        question: "Number Of Guests:",
-        validation: (input) => /^[1-5]$/.test(input.trim()),
-        errorMessage: "Error: a maximum of 5 Guests are allowed .",
-      },
-      {
-        question: "Email:",
-        validation: (input) => /^\S+@\S+\.\S+$/.test(input.trim()),
-        errorMessage: "Error: Invalid email format.",
-      },
-      {
-        question: "PhoneNumber:",
-        validation: (input) => /^\+\d{1,3}\d{1,16}$/.test(input.trim()),
-        errorMessage:
-          "Error: Invalid phone number format. Please enter a valid phone number starting with '+' then country code and your number",
-      },
-      {
-        question: "CreditCard Number:",
-        validation: (input) => /^\d{16}$/.test(input.trim()),
-        errorMessage:
-          "Error: Invalid credit card number format. Please enter a 16-digit number.",
-      },
-      {
-        question: "CreditCard Expiration Date:",
-        validation: (input) => /^\d{2}\/\d{2}$/.test(input.trim()),
-        errorMessage:
-          "Error: Invalid expiration date format. Please enter in MM/YY format.",
-      },
-      {
-        question: "CreditCard Security Code:",
-        validation: (input) => /^\d{3}$/.test(input.trim()),
-        errorMessage:
-          "Error: Invalid security code format. Please enter a 3-digit number.",
-      },
-      {
-        question: "Billing Address:",
-        validation: (input) =>
-          /^(?=.*[a-zA-Z])\S.*\s+\d{1,3}$/.test(input.trim()),
-        errorMessage:
-          "Error: Please provide your street name followed by your house number (up to 3 digits).",
-      },
-      {
-        question: "City:",
-        validation: (input) => /^[a-zA-Z]+$/.test(input.trim()),
-        errorMessage: "Error: Please provide your City.",
-      },
-      {
-        question: "State:",
-        validation: (input) => /^[a-zA-Z]+$/.test(input.trim()),
-        errorMessage: "Error: Please provide your State .",
-      },
-      {
-        question: "ZipCode:",
-        validation: (input) => /^\d{5}$/.test(input.trim()),
-        errorMessage:
-          "Error: Invalid ZIP code format. Please enter a 5-digit number.",
-      },
-      {
-        question: "Country:",
-        validation: (input) => /^[a-zA-Z]+$/.test(input.trim()),
-        errorMessage: "Error: Please provide your Country.",
-      },
-      {
-        question: "Passport Number:",
-        validation: (input) => /^[a-zA-Z0-9]{1,9}$/.test(input.trim()),
-        errorMessage:
-          "Error: Passport number must contain 1 to 9 characters and cannot be empty.",
-      },
-      {
-        question: "Expiration Date:",
-        validation: (input) => /^\d{2}\/\d{2}$/.test(input.trim()),
-        errorMessage:
-          "Error: Invalid expiration date format. Please enter in MM/YY format.",
-      },
-      {
-        question: "Nationality:",
-        validation: (input) => /^[a-zA-Z]+$/.test(input.trim()),
-        errorMessage: "Error: Nationality must be a word without numbers.",
-      },
-      {
-        question: "Date of Birth:",
-        validation: (input) => /^\d{2}\/\d{2}\/\d{4}$/.test(input.trim()),
-        errorMessage:
-          "Error: Invalid date of birth format. Please enter in DD/MM/YYYY format.",
-      },
-      {
-        question: "Special Requests:",
-        validation: () => true,
-        errorMessage: " ",
-      }, // No validation needed
-    ];
-
-    questions.forEach((questionObj) => {
-      let userInput;
-      do {
-        userInput = readline.question(questionObj.question + " ");
-        if (!questionObj.validation(userInput)) {
-          console.log(questionObj.errorMessage);
-        }
-      } while (!questionObj.validation(userInput));
-
-      // Assign validated input to bookingData
-      bookingData[questionObj.question.replace(/:/g, "").trim()] = userInput;
-    });
-
-    // Simulate sending the booking data to the server
-    simulateServerRequest(bookingData);
-  } else {
-    console.log("Please select a valid room.");
+// Handle room selection
+function handleRoomSelection(event) {
+  const roomNumber = parseInt(event.target.getAttribute("data-room-number"));
+  if (!isNaN(roomNumber)) {
+    showBookingForm(roomNumber);
   }
 }
 
-// Book the room
-bookRoom(roomNumber);
+// Show booking form for the selected room
+function showBookingForm(roomNumber) {
+  const bookingForm = document.getElementById("bookingForm");
+  const selectedRoom = roomsData.find((room) => room.Number === roomNumber);
+  if (selectedRoom) {
+    document.getElementById("selectedRoomNumber").value = roomNumber;
+    bookingForm.classList.remove("hidden");
+    displayNextInput();
+  }
+}
+
+// Counter to keep track of the current input field
+let currentInputIndex = 0;
+
+// Array of questions for booking details
+const questions = [
+  "FullName:",
+  "Booking Days:",
+  "Number Of Guests:",
+  "Email:",
+  "PhoneNumber:",
+  "CreditCard Number:",
+  "CreditCard Expiration Date (MM/YY):",
+  "CreditCard Security Code:",
+  "Billing Address:",
+  "City:",
+  "State:",
+  "ZipCode:",
+  "Country:",
+  "Passport Number:",
+  "Passport Expiration Date (MM/YY):",
+  "Nationality:",
+  "Date of Birth (DD/MM/YYYY):",
+  "Special Requests:",
+];
+
+// Function to display the next input field
+function displayNextInput() {
+  const currentQuestion = questions[currentInputIndex];
+  const userInput = prompt(currentQuestion);
+  const validationFunction = getValidationFunction(currentQuestion);
+  if (validationFunction(userInput)) {
+    currentInputIndex++;
+    if (currentInputIndex < questions.length) {
+      displayNextInput();
+    } else {
+      submitBooking();
+    }
+  } else {
+    alert("Invalid input. Please try again.");
+    displayNextInput();
+  }
+}
+
+// Function to get the validation function for a given question
+function getValidationFunction(question) {
+  const validationFunctions = {
+    "FullName:": (input) => /^[a-zA-Z]+\s+[a-zA-Z]+$/.test(input.trim()),
+    "Booking Days:": (input) => /^(?:[2-9]|[12][0-9]|30)$/.test(input.trim()),
+    "Number Of Guests:": (input) => /^[1-5]$/.test(input.trim()),
+    "Email:": (input) => /^\S+@\S+\.\S+$/.test(input.trim()),
+    "PhoneNumber:": (input) => /^\+\d{1,3}\d{1,16}$/.test(input.trim()),
+    "CreditCard Number:": (input) => /^\d{16}$/.test(input.trim()),
+    "CreditCard Expiration Date (MM/YY):": (input) => /^\d{2}\/\d{2}$/.test(input.trim()),
+    "CreditCard Security Code:": (input) => /^\d{3}$/.test(input.trim()),
+    "Billing Address:": (input) => /^(?=.*[a-zA-Z])\S.*\s+\d{1,3}$/.test(input.trim()),
+    "City:": (input) => /^[a-zA-Z]+$/.test(input.trim()),
+    "State:": (input) => /^[a-zA-Z]+$/.test(input.trim()),
+    "ZipCode:": (input) => /^\d{5}$/.test(input.trim()),
+    "Country:": (input) => /^[a-zA-Z]+$/.test(input.trim()),
+    "Passport Number:": (input) => /^[a-zA-Z0-9]{1,9}$/.test(input.trim()),
+    "Passport Expiration Date (MM/YY):": (input) => /^\d{2}\/\d{2}$/.test(input.trim()),
+    "Nationality:": (input) => /^[a-zA-Z]+$/.test(input.trim()),
+    "Date of Birth (DD/MM/YYYY):": (input) => /^\d{2}\/\d{2}\/\d{4}$/.test(input.trim()),
+    "Special Requests:": () => true, // No validation needed for Special Requests
+  };
+  return validationFunctions[question];
+}
+
+// Function to submit the booking
+function submitBooking() {
+  const bookingData = {
+    roomNumber: document.getElementById("selectedRoomNumber").value,
+    date: new Date().toISOString(),
+  };
+
+  questions.forEach((question) => {
+    const userInput = prompt(question);
+    bookingData[question.replace(/:/g, "").trim()] = userInput;
+  });
+
+  // Simulate sending the booking data to the server
+  simulateServerRequest(bookingData);
+}
 
 // Simulate sending the booking data to the server
 function simulateServerRequest(bookingData) {
   setTimeout(() => {
     // Get the selected room details
     const selectedRoom = roomsData.find(
-      (room) => room.Number === bookingData.roomNumber
+      (room) => room.Number === parseInt(bookingData.roomNumber)
     );
     const roomDetails = `[${selectedRoom.Number}] ${selectedRoom.name} - Price: $${selectedRoom.price} per night`;
 
-    // Convert bookingData object into an array of key-value pairs
-    const detailsArray = Object.entries(bookingData).map(
-      ([key, value]) => `${key}: ${value}`
-    );
-
     // Combine selected room details with user's booking details
-    const bookingDetails = [roomDetails, ...detailsArray].join("\n");
+    let bookingDetails = roomDetails;
+    for (const key in bookingData) {
+      if (key !== "roomNumber" && key !== "date") {
+        bookingDetails += `\n${key}: ${bookingData[key]}`;
+      }
+    }
 
     // Print the booking details
-    console.log(`Booking successful! Details ${bookingDetails}`);
+    console.log(`Booking successful! Details:\n${bookingDetails}`);
+    alert(`Booking successful! Details:\n${bookingDetails}`);
   }, 1000);
 }
